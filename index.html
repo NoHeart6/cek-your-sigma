@@ -23,6 +23,7 @@
             height: 100%;
             pointer-events: none;
             z-index: -1;
+            overflow: hidden;
         }
         .emoji {
             position: absolute;
@@ -34,9 +35,9 @@
             100% { transform: translateY(100vh); }
         }
         .container {
-            max-width: 800px;
+            max-width: 100%;
             margin: 0 auto;
-            padding: 40px 20px;
+            padding: 20px;
             background-color: rgba(0, 0, 0, 0.8);
             border: 2px solid #D4AF37;
             border-radius: 20px;
@@ -47,6 +48,7 @@
             text-align: center;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
             animation: titleGlow 2s infinite alternate;
+            font-size: 24px;
         }
         @keyframes titleGlow {
             0% { text-shadow: 0 0 5px #D4AF37; }
@@ -63,6 +65,7 @@
             font-size: 16px;
             transition: all 0.3s ease;
             border-radius: 10px;
+            box-sizing: border-box;
         }
         input:focus, select:focus {
             outline: none;
@@ -121,15 +124,15 @@
             margin-bottom: 20px;
         }
         .lottery-number {
-            width: 60px;
-            height: 60px;
+            width: 50px;
+            height: 50px;
             background-color: #D4AF37;
             color: #000;
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 24px;
+            font-size: 20px;
             font-weight: bold;
             animation: spin 0.5s ease-in-out, glow 2s infinite alternate;
         }
@@ -157,6 +160,24 @@
             margin-top: 30px;
             text-align: center;
             color: #D4AF37;
+            font-size: 14px;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 10px;
+            }
+            h1, h2 {
+                font-size: 20px;
+            }
+            input, select, button {
+                font-size: 14px;
+            }
+            .lottery-number {
+                width: 40px;
+                height: 40px;
+                font-size: 16px;
+            }
         }
     </style>
 </head>
@@ -397,11 +418,11 @@
             return "Gila sih! Aura lu bisa bikin orang sekitar pada pake sunblock SPF 1000+! Tapi tetep aja lu sendirian, ngenes bat dah! 🌞";
         }
 
-        // Add emoji rain effect
+        // Optimized emoji rain effect
         function createEmojiRain() {
             const emojiRain = document.getElementById('emojiRain');
             const emojis = ['🔥', '⚔️', '🛡️', '🏹', '🪓', '🗡️', '👹', '🐉', '🦁', '🐺', '🌋', '⚡'];
-            const numberOfEmojis = 50;
+            const numberOfEmojis = Math.min(50, Math.floor(window.innerWidth / 20)); // Adjust number of emojis based on screen width
 
             for (let i = 0; i < numberOfEmojis; i++) {
                 const emoji = document.createElement('div');
@@ -416,6 +437,13 @@
 
         // Call the function to create emoji rain
         createEmojiRain();
+
+        // Optimize performance by limiting the number of emoji elements
+        window.addEventListener('resize', () => {
+            const emojiRain = document.getElementById('emojiRain');
+            emojiRain.innerHTML = '';
+            createEmojiRain();
+        });
     </script>
 </body>
 </html>
